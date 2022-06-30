@@ -1,0 +1,16 @@
+2022-06-25 17:56:29,103 INFO [main] c.q.c.MailTests [StartupInfoLogger.java:55] Starting MailTests using Java 1.8.0_131 on DESKTOP-BUP1T4B with PID 6172 (started by JQQ in G:\develop\workspace\community)
+2022-06-25 17:56:29,131 INFO [main] c.q.c.MailTests [SpringApplication.java:634] No active profile set, falling back to 1 default profile: "default"
+2022-06-25 17:56:34,649 INFO [main] o.s.b.a.w.s.WelcomePageHandlerMapping [WelcomePageHandlerMapping.java:57] Adding welcome page template: index
+2022-06-25 17:56:35,349 INFO [main] c.q.c.MailTests [StartupInfoLogger.java:61] Started MailTests in 7.608 seconds (JVM running for 11.712)
+2022-06-25 18:10:15,928 INFO [main] c.q.c.MailTests [StartupInfoLogger.java:55] Starting MailTests using Java 1.8.0_131 on DESKTOP-BUP1T4B with PID 14956 (started by JQQ in G:\develop\workspace\community)
+2022-06-25 18:10:15,928 INFO [main] c.q.c.MailTests [SpringApplication.java:634] No active profile set, falling back to 1 default profile: "default"
+2022-06-25 18:10:19,854 INFO [main] o.s.b.a.w.s.WelcomePageHandlerMapping [WelcomePageHandlerMapping.java:57] Adding welcome page template: index
+2022-06-25 18:10:20,737 INFO [main] c.q.c.MailTests [StartupInfoLogger.java:61] Started MailTests in 5.626 seconds (JVM running for 7.453)
+2022-06-25 18:13:05,466 INFO [main] c.q.c.MailTests [StartupInfoLogger.java:55] Starting MailTests using Java 1.8.0_131 on DESKTOP-BUP1T4B with PID 14432 (started by JQQ in G:\develop\workspace\community)
+2022-06-25 18:13:05,466 INFO [main] c.q.c.MailTests [SpringApplication.java:634] No active profile set, falling back to 1 default profile: "default"
+2022-06-25 18:13:08,411 INFO [main] o.s.b.a.w.s.WelcomePageHandlerMapping [WelcomePageHandlerMapping.java:57] Adding welcome page template: index
+2022-06-25 18:13:08,920 INFO [main] c.q.c.MailTests [StartupInfoLogger.java:61] Started MailTests in 4.069 seconds (JVM running for 5.493)
+2022-06-25 18:31:11,905 INFO [main] c.q.c.MailTests [StartupInfoLogger.java:55] Starting MailTests using Java 1.8.0_131 on DESKTOP-BUP1T4B with PID 9988 (started by JQQ in G:\develop\workspace\community)
+2022-06-25 18:31:11,908 INFO [main] c.q.c.MailTests [SpringApplication.java:634] No active profile set, falling back to 1 default profile: "default"
+2022-06-25 18:31:15,842 INFO [main] o.s.b.a.w.s.WelcomePageHandlerMapping [WelcomePageHandlerMapping.java:57] Adding welcome page template: index
+2022-06-25 18:31:16,444 INFO [main] c.q.c.MailTests [StartupInfoLogger.java:61] Started MailTests in 5.296 seconds (JVM running for 6.988)

@@ -1,0 +1,3 @@
+2022-06-19 21:32:34.971  INFO 16440 --- [main] o.s.b.a.w.s.WelcomePageHandlerMapping    : Adding welcome page template: index
+2022-06-19 21:32:37.105  WARN 16440 --- [main] com.qqj.community.LoggerTests            : warn log
+2022-06-19 21:32:37.106 ERROR 16440 --- [main] com.qqj.community.LoggerTests            : error log
