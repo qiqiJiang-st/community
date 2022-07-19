@@ -1,6 +1,7 @@
 package com.qqj.community.service;
 
 
+import com.google.code.kaptcha.Producer;
 import com.qqj.community.dao.LoginTicketMapper;
 import com.qqj.community.dao.UserMapper;
 import com.qqj.community.entity.LoginTicket;
@@ -31,6 +32,9 @@ public class UserService implements CommunityConstant {
 
     @Autowired
     private TemplateEngine templateEngine;
+
+    @Autowired
+    private Producer kaptchaProducer;
 
     @Value("${community.path.domain}")
     private String domain;
@@ -97,6 +101,28 @@ public class UserService implements CommunityConstant {
         return map;
     }
 
+    public Map<String,Object> forgetPassword(String email){
+        Map<String, Object> map = new HashMap<>();
+
+        //空值处理
+        if (StringUtils.isBlank(email)) {
+            map.put("emailMsg", "邮箱不能为空!");
+            return map;
+        }
+        //验证邮箱
+        User user;
+        user = userMapper.selectByEmail(email);
+        if (user == null) {
+            map.put("emailMsg", "该邮箱未被注册！");
+            return map;
+        }
+
+        //发送验证码
+        String text = kaptchaProducer.createText();
+        mailClient.sendMail(user.getEmail(), "激活账号", text);
+        map.put("validCode",text);
+        return map;
+    }
     public int activation(int userId, String code) {
         User user = userMapper.selectById(userId);
         if (user.getStatus() == 1) {
@@ -160,5 +186,9 @@ public class UserService implements CommunityConstant {
 
     public void logout(String ticket){
         loginTicketMapper.updateStatus(ticket,1);
+    }
+
+    public LoginTicket findLoginTicket(String ticket){
+        return loginTicketMapper.selectByTicket(ticket);
     }
 }
