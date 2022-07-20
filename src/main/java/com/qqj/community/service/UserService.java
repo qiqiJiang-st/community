@@ -101,7 +101,7 @@ public class UserService implements CommunityConstant {
         return map;
     }
 
-    public Map<String,Object> forgetPassword(String email){
+    public Map<String, Object> forgetPassword(String email) {
         Map<String, Object> map = new HashMap<>();
 
         //空值处理
@@ -120,9 +120,10 @@ public class UserService implements CommunityConstant {
         //发送验证码
         String text = kaptchaProducer.createText();
         mailClient.sendMail(user.getEmail(), "激活账号", text);
-        map.put("validCode",text);
+        map.put("validCode", text);
         return map;
     }
+
     public int activation(int userId, String code) {
         User user = userMapper.selectById(userId);
         if (user.getStatus() == 1) {
@@ -180,15 +181,19 @@ public class UserService implements CommunityConstant {
         loginTicket.setExpired(new Date(System.currentTimeMillis() + 1000 * expiredSeconds));
         loginTicketMapper.insertLoginTicket(loginTicket);
 
-        map.put("ticket",loginTicket.getTicket());
+        map.put("ticket", loginTicket.getTicket());
         return map;
     }
 
-    public void logout(String ticket){
-        loginTicketMapper.updateStatus(ticket,1);
+    public void logout(String ticket) {
+        loginTicketMapper.updateStatus(ticket, 1);
     }
 
-    public LoginTicket findLoginTicket(String ticket){
+    public LoginTicket findLoginTicket(String ticket) {
         return loginTicketMapper.selectByTicket(ticket);
+    }
+
+    public int updateHeader(int userId, String headerUrl) {
+        return userMapper.updateHeader(userId, headerUrl);
     }
 }
