@@ -4,6 +4,7 @@ import com.google.code.kaptcha.Producer;
 import com.qqj.community.entity.User;
 import com.qqj.community.service.UserService;
 import com.qqj.community.util.CommunityConstant;
+import com.qqj.community.util.CommunityUtil;
 import org.apache.commons.lang3.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -11,10 +12,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.CookieValue;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.*;
 
 import javax.imageio.ImageIO;
 import javax.jws.soap.SOAPBinding;
@@ -132,11 +130,18 @@ public class LoginController implements CommunityConstant {
         userService.logout(ticket);
         return "redirect:/index";
     }
+
+    //忘记密码页码
     @RequestMapping(path = "/forget",method = RequestMethod.GET)
-    public String forget(String email){
+    public String getForgetPage(String email){
         return "/site/forget";
     }
 
+    //获取验证码
+//    @RequestMapping(path = "/forget/code",method = RequestMethod.GET)
+//    @ResponseBody
+//    public String getForgetCode(String email, HttpSession session){
+//    }
 
 
 }
