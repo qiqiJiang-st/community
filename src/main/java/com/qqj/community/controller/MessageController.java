@@ -114,7 +114,6 @@ public class MessageController {
     @RequestMapping(path = "/letter/send",method = RequestMethod.POST)
     @ResponseBody
     public String sendLetter(String toName,String content){
-        Integer.valueOf("abc");
         User target = userService.findUserByName(toName);
         if (target == null){
             return CommunityUtil.getJSONString(1,"目标用户不存在");
@@ -131,6 +130,13 @@ public class MessageController {
         message.setCreateTime(new Date());
         messageService.addMessage(message);
 
+        return CommunityUtil.getJSONString(0);
+    }
+
+    @RequestMapping(path = "/letter/delete",method = RequestMethod.POST)
+    @ResponseBody
+    public String deleteLetter(int id){
+        messageService.deleteMessage(id);
         return CommunityUtil.getJSONString(0);
     }
 

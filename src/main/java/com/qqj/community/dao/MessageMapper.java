@@ -27,4 +27,6 @@ public interface MessageMapper {
 
     //更改消息状态
     int updateStatus(List<Integer> ids,int status);
+
+
 }
