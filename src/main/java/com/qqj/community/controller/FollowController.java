@@ -1,8 +1,10 @@
 package com.qqj.community.controller;
 
 import com.qqj.community.annotation.LoginRequired;
+import com.qqj.community.entity.Event;
 import com.qqj.community.entity.Page;
 import com.qqj.community.entity.User;
+import com.qqj.community.event.EventProducer;
 import com.qqj.community.service.FollowService;
 import com.qqj.community.service.UserService;
 import com.qqj.community.util.CommunityConstant;
@@ -30,6 +32,10 @@ public class FollowController implements CommunityConstant {
 
     @Autowired
     private UserService userService;
+
+    @Autowired
+    private EventProducer eventProducer;
+
     @LoginRequired
     @RequestMapping(path = "/follow", method = RequestMethod.POST)
     @ResponseBody
@@ -37,6 +43,16 @@ public class FollowController implements CommunityConstant {
         User user = hostHolder.getUser();
 
         followService.follow(user.getId(), entityType, entityId);
+
+        //触发关注事件
+        Event event = new Event()
+                .setTopic(TOPIC_FOLLOW)
+                .setUserId(hostHolder.getUser().getId())
+                .setEntityType(entityType)
+                .setEntityId(entityId)
+                .setEntityUserId(entityId);
+        eventProducer.fireEvent(event);
+
         return CommunityUtil.getJSONString(0, "已关注");
     }
 
@@ -50,52 +66,54 @@ public class FollowController implements CommunityConstant {
         return CommunityUtil.getJSONString(0, "已取消关注");
     }
 
-    @RequestMapping(path = "/followees/{userId}",method = RequestMethod.GET)
-    public String getFollowees(@PathVariable("userId") int userId, Page page, Model model){
+    @RequestMapping(path = "/followees/{userId}", method = RequestMethod.GET)
+    public String getFollowees(@PathVariable("userId") int userId, Page page, Model model) {
         User user = userService.findUserById(userId);
-        if (user == null){
+        if (user == null) {
             throw new RuntimeException("该用户不存在");
         }
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         page.setLimit(5);
         page.setPath("/followees/" + userId);
-        page.setRows((int) followService.findFolloweeCount(userId,CommunityConstant.ENTITY_TYPE_USER));
+        page.setRows((int) followService.findFolloweeCount(userId, CommunityConstant.ENTITY_TYPE_USER));
 
-        List<Map<String, Object>> userList = followService.findFollowees(userId,page.getOffset(),page.getLimit());
-        if (userList!=null){
-            for (Map<String, Object> map:userList){
+        List<Map<String, Object>> userList = followService.findFollowees(userId, page.getOffset(), page.getLimit());
+        if (userList != null) {
+            for (Map<String, Object> map : userList) {
                 User u = (User) map.get("user");
-                map.put("hasFollowed",hasFollowed(u.getId()));
+                map.put("hasFollowed", hasFollowed(u.getId()));
             }
         }
-        model.addAttribute("users",userList);
+        model.addAttribute("users", userList);
         return "site/followee";
     }
-    @RequestMapping(path = "/followers/{userId}",method = RequestMethod.GET)
-    public String getFollowers(@PathVariable("userId") int userId, Page page, Model model){
+
+    @RequestMapping(path = "/followers/{userId}", method = RequestMethod.GET)
+    public String getFollowers(@PathVariable("userId") int userId, Page page, Model model) {
         User user = userService.findUserById(userId);
-        if (user == null){
+        if (user == null) {
             throw new RuntimeException("该用户不存在");
         }
-        model.addAttribute("user",user);
+        model.addAttribute("user", user);
         page.setLimit(5);
         page.setPath("/followers/" + userId);
-        page.setRows((int) followService.findFollowerCount(ENTITY_TYPE_USER,userId));
+        page.setRows((int) followService.findFollowerCount(ENTITY_TYPE_USER, userId));
 
-        List<Map<String, Object>> userList = followService.findFollowers(userId,page.getOffset(),page.getLimit());
-        if (userList!=null){
-            for (Map<String, Object> map:userList){
+        List<Map<String, Object>> userList = followService.findFollowers(userId, page.getOffset(), page.getLimit());
+        if (userList != null) {
+            for (Map<String, Object> map : userList) {
                 User u = (User) map.get("user");
-                map.put("hasFollowed",hasFollowed(u.getId()));
+                map.put("hasFollowed", hasFollowed(u.getId()));
             }
         }
-        model.addAttribute("users",userList);
+        model.addAttribute("users", userList);
         return "site/follower";
     }
-    private boolean hasFollowed(int userId){
-        if (hostHolder.getUser() == null){
+
+    private boolean hasFollowed(int userId) {
+        if (hostHolder.getUser() == null) {
             return false;
         }
-        return followService.hasFollowed(hostHolder.getUser().getId(),ENTITY_TYPE_USER,userId);
+        return followService.hasFollowed(hostHolder.getUser().getId(), ENTITY_TYPE_USER, userId);
     }
 }
